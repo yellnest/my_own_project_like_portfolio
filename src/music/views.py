@@ -1,6 +1,10 @@
 from django.db.models import Count, F
 from rest_framework import viewsets, generics, permissions
 from rest_framework.filters import SearchFilter
+from rest_framework.response import Response
+from rest_framework.views import APIView
+from django.core.mail import send_mail
+
 
 from .models import *
 from .serializers import *
@@ -55,3 +59,22 @@ class CommentView(generics.ListCreateAPIView):
 
     def perform_create(self, serializer):
         serializer.save(username=self.request.user)
+
+
+class FeedBackView(APIView):
+    """Отправление FeedBack на почту
+    """
+    serializer_class = ContactSerailizer
+
+    def post(self, request, *args, **kwargs):
+        serializer_class = ContactSerailizer(data=request.data)
+        if serializer_class.is_valid():
+            data = serializer_class.validated_data
+            name = data.get('name')
+            from_email = data.get('email')
+            subject = data.get('subject')
+            message = data.get('message')
+            send_mail(f'От {name} | {from_email} | {subject} ', message, from_email, ['y0ungada03@gmail.com'])
+            return Response({
+                'success': 'Удачно отправилось, P.S. Это рил отправляется мне на почту так что не спамь пж'
+            })

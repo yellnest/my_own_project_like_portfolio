@@ -8,10 +8,6 @@ class ArtistSerializer(serializers.ModelSerializer):
     class Meta:
         model = Artist
         fields = ('id', 'nick', 'slug', 'number_of_songs',)
-
-        nick = models.CharField(max_length=150)
-        slug = models.SlugField(max_length=160, unique=True)
-        image = models.ImageField(upload_to=path_to_artists_upload_image, blank=True, null=True)
         # fields = '__all__'
 
 
@@ -23,5 +19,10 @@ class MusicSerializer(serializers.ModelSerializer):
         fields = (
             'id', 'song_title', 'slug', 'comment', 'ambiguity', 'slang', 'speech_speed', 'without_text', 'count_avg',
             'published',
-
         )
+
+
+class CommentSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Comment
+        fields = '__all__'

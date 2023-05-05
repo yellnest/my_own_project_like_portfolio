@@ -5,7 +5,6 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 from django.core.mail import send_mail
 
-
 from .models import *
 from .serializers import *
 from .permission import IsAdminOrReadOnly

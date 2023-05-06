@@ -77,3 +77,19 @@ class FeedBackView(APIView):
             return Response({
                 'success': 'Удачно отправилось, P.S. Это рил отправляется мне на почту так что не спамь пж'
             })
+
+
+class RegisterView(generics.GenericAPIView):
+    """Регистрация пользователя
+    """
+    permission_classes = [permissions.AllowAny]
+    serializer_class = RegisterSerializer
+
+    def post(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        user = serializer.save()
+        return Response({
+            'user': UserSerializer(user, context=self.get_serializer_context()).data,
+            'message': 'Пользователь успешно создан'
+        })

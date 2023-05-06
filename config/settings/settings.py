@@ -17,6 +17,7 @@ INSTALLED_APPS = [
     # installed apps
     'rest_framework',
     'rest_framework_simplejwt',
+    'drf_yasg',
 
     # internal apps
     'src.music.apps.MusicConfig',
